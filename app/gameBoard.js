@@ -1,5 +1,5 @@
 /**
- * Created by Manu on 18/07/2015.
+ * Created  on 18/07/2015.
  */
 var Board = function(){
     this.grid = [];

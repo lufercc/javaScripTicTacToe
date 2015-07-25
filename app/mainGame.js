@@ -8,21 +8,19 @@ var readlineSync = require('readline-sync');
 
 var TTT = function(){
 
-    this.player1 = '';
-    this.player2 = '';
+    this.player1 = new player();
+    this.player2 = new player();
     this.winner = 'Tied game!';
-    //this.initGame();
-    //this.gameResults();
+    if(!process.argv[2])
+    {
+        this.setNamePlayer1();
+        this.setNamePlayer2();
+        this.initGame();
+        this.gameResults();
+    }
+
 
 };
-
-
-/*TTT.prototype.getdata = function(){
-    this.name = readlineSync.question('Enter the Name of player1? :');
-    console.log(name);
-    this.player1 = new player(readlineSync.question('Enter the Name of player1? :'));
-    console.log('name the payer ',player1.getName());
-};*/
 
 
 TTT.prototype.initGame = function(){
@@ -32,19 +30,24 @@ TTT.prototype.initGame = function(){
 };
 
 TTT.prototype.setNamePlayer1 = function(name){
-    var p = new player();
-    p.setPlayer1(name)
-    this.player1 = p.getPlayer1();
+    if(name == undefined)
+    {
+        name = readlineSync.question('Enter player 1 name: ');
+    }
+    this.player1.setPlayer1(name);
 };
 
 TTT.prototype.setNamePlayer2 = function(name){
-    var p = new player();
-    p.setPlayer2(name)
-    this.player2 = p.getPlayer2();
+    if(name == undefined)
+    {
+        name = readlineSync.question('Enter player 1 name: ');
+    }
+    this.player2.setPlayer1(name);
 };
 
 TTT.prototype.drawTable = function(){
     console.log(board.grid.join('\n'));
+    return board.grid.join('\n');
 };
 
 TTT.prototype.playerMove = function(){
@@ -68,12 +71,12 @@ TTT.prototype.playerMove = function(){
         {
             if(board.checkifWin('XXX'))
             {
-                this.winner = this.player1+' wins!';
+                this.winner = this.player1.getPlayer1()+' wins!';
                 break;
             }
             else if(board.checkifWin('OOO'))
             {
-                this.winner = this.player2+' wins!';
+                this.winner = this.player2.getPlayer1()+' wins!';
                 break;
             }
         }
@@ -82,12 +85,12 @@ TTT.prototype.playerMove = function(){
 
 TTT.prototype.player1Turn = function(){
     this.drawTable();
-    var position = readlineSync.question('Select a position to mark '+this.player1+': ');
+    var position = readlineSync.question('Select a position to mark '+this.player1.getPlayer1()+': ');
     return board.setValue(position,'X');
 };
 TTT.prototype.player2Turn = function(){
     this.drawTable();
-    var position = readlineSync.question('Select a position to mark '+this.player2+': ');
+    var position = readlineSync.question('Select a position to mark '+this.player2.getPlayer1()+': ');
     return board.setValue(position,'O');
 };
 
@@ -96,5 +99,5 @@ TTT.prototype.gameResults = function(){
     console.log('The result of the game is: '+this.winner);
     return 'The result of the game is: '+this.winner;
 };
-var Game = TTT;
+var Game = new TTT;
 module.exports = Game;
